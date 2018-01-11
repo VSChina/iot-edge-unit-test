@@ -1,3 +1,4 @@
+using Microsoft.Azure.Devices.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FilterModule;
 
@@ -7,9 +8,11 @@ namespace FilterModule.Tests
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void MessageStringTest()
         {
-            Assert.IsTrue(Program.MethodToTest());
+            var message = new Message(new byte[] { 97, 98, 99 });
+            var messageString = Program.getMessageString(message);
+            Assert.AreEqual("abc", messageString);
         }
     }
 }

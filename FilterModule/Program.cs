@@ -108,13 +108,12 @@ namespace FilterModule
                 throw new InvalidOperationException("UserContext doesn't contain " + "expected values");
             }
 
-            byte[] messageBytes = message.GetBytes();
-            string messageString = Encoding.UTF8.GetString(messageBytes);
+            string messageString = getMessageString(message);
             Console.WriteLine($"Received message: {counterValue}, Body: [{messageString}]");
 
             if (!string.IsNullOrEmpty(messageString))
             {
-                var pipeMessage = new Message(messageBytes);
+                var pipeMessage = new Message(message.GetBytes());
                 foreach (var prop in message.Properties)
                 {
                     pipeMessage.Properties.Add(prop.Key, prop.Value);
@@ -125,8 +124,9 @@ namespace FilterModule
             return MessageResponse.Completed;
         }
 
-        public static bool MethodToTest() {
-            return true;
+        public static string getMessageString(Message message) {
+            byte[] messageBytes = message.GetBytes();
+            return Encoding.UTF8.GetString(messageBytes);
         }
     }
 }
